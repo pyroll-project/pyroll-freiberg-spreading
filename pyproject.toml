@@ -10,11 +10,12 @@ authors = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.10, <3.11"
 pyroll = "^0.3.0"
 
 [tool.poetry.dev-dependencies]
-pyroll = { git = "https://gitlab.hrz.tu-chemnitz.de/imf-numerik/pyroll.git" }
+pytest = "7.0.1"
+pyroll = { path = "../pyroll-core", develop = true }
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
