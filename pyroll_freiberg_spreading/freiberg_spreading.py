@@ -3,7 +3,7 @@ from logging import getLogger
 
 import numpy as np
 
-from pyroll.roll_pass import RollPass
+from pyroll import RollPass
 from . import coefficients_lib
 
 _log = getLogger(__name__)

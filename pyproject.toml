@@ -11,7 +11,7 @@ authors = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pyroll = "0.3.0"
+pyroll = "^0.3.0"
 
 [tool.poetry.dev-dependencies]
 pyroll = { git = "https://gitlab.hrz.tu-chemnitz.de/imf-numerik/pyroll.git" }
