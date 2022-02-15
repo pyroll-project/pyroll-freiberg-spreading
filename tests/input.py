@@ -60,4 +60,17 @@ sequence = [
         velocity=1e3,
         gap=3
     ),
+    RollPass(
+        label="Rund III",
+        groove=RoundGroove(
+            r1=8,
+            r2=20,
+            depth=19
+        ),
+        in_profile_rotation=90,
+        roll_radius=200,
+        roll_temperature=303,
+        velocity=1e3,
+        gap=2
+    ),
 ]

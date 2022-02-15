@@ -29,17 +29,19 @@ def width_change(roll_pass: RollPass):
         roll_pass.in_profile.freiberg_spreading_material_coefficient,
         roll_pass.in_profile.freiberg_spreading_temperature_coefficient,
         roll_pass.freiberg_spreading_tension_coefficient,
-        roll_pass.freiberg_spreading_filling_coefficient,
-        roll_pass.freiberg_spreading_diagonals_ratio_coefficient,
         roll_pass.freiberg_spreading_roll_gap_ratio_coefficient,
-        roll_pass.freiberg_spreading_velocity_coefficient
+        roll_pass.freiberg_spreading_velocity_coefficient,
+        roll_pass.freiberg_spreading_diagonals_ratio_coefficient,
+        roll_pass.freiberg_spreading_filling_coefficient,
     ])
 
     if not np.all(parts):
+        _log.warning(f"No Freiberg Spreading Coefficients available for {roll_pass.label}")
         return None
 
-    _log.debug(f"Used Freiberg spreading model for roll pass {roll_pass.label}.")
     spreading = np.prod(parts)
+
+    _log.debug(f"Freiberg Spreading Coefficients for {roll_pass.label}: {parts} => Product: {spreading}")
     return (spreading - 1) * roll_pass.in_profile.rotated.width
 
 

@@ -26,7 +26,10 @@ def test_solve(tmp_path, monkeypatch: pytest.MonkeyPatch):
 
     )
 
-    print("\n")
-    print((tmp_path / "pyroll.log").read_text())
+    print()
+    print(result.output)
+    print(result.exception)
 
-    print(tmp_path / 'report.html')
+    assert result.exit_code == 0
+
+    assert "No Freiberg Spreading Coefficients available for pass Rund III" in result.output
