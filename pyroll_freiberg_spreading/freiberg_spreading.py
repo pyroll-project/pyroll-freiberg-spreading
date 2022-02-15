@@ -36,7 +36,7 @@ def width_change(roll_pass: RollPass):
     ])
 
     if not np.all(parts):
-        _log.warning(f"No Freiberg Spreading Coefficients available for {roll_pass.label}")
+        _log.warning(f"No Freiberg spreading coefficients available for {roll_pass.label}")
         return None
 
     spreading = np.prod(parts)

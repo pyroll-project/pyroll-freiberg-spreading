@@ -7,7 +7,7 @@ from .. import coefficients_lib
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(grooves.FlattenedOvalGroove, grooves.CircularOvalGroove)
+@applies_to_in_grooves(grooves.OvalGrooveBase)
 @applies_to_out_grooves(grooves.SquareGroove)
 def freiberg_spreading_velocity_coefficient(roll_pass: RollPass):
     return coefficients_lib.velocity_coefficient(
@@ -22,7 +22,7 @@ def freiberg_spreading_velocity_coefficient(roll_pass: RollPass):
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(grooves.FlattenedOvalGroove, grooves.CircularOvalGroove)
+@applies_to_in_grooves(grooves.OvalGrooveBase)
 @applies_to_out_grooves(grooves.SquareGroove)
 def freiberg_spreading_roll_gap_ratio_coefficient(roll_pass: RollPass):
     return coefficients_lib.roll_gap_ratio_coefficient(
@@ -33,7 +33,7 @@ def freiberg_spreading_roll_gap_ratio_coefficient(roll_pass: RollPass):
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(grooves.FlattenedOvalGroove, grooves.CircularOvalGroove)
+@applies_to_in_grooves(grooves.OvalGrooveBase)
 @applies_to_out_grooves(grooves.SquareGroove)
 def freiberg_spreading_filling_coefficient(roll_pass: RollPass):
     return coefficients_lib.filling_coefficient(
@@ -50,7 +50,7 @@ def freiberg_spreading_filling_coefficient(roll_pass: RollPass):
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(grooves.FlattenedOvalGroove, grooves.CircularOvalGroove)
+@applies_to_in_grooves(grooves.OvalGrooveBase)
 @applies_to_out_grooves(grooves.SquareGroove)
 def freiberg_spreading_diagonals_ratio_coefficient(roll_pass: RollPass):
     return coefficients_lib.diagonals_ratio_coefficient(
