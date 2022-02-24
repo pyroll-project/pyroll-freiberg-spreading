@@ -16,8 +16,8 @@ def freiberg_spreading_velocity_coefficient(roll_pass: RollPass):
         b=1.018,
         n=0.69,
         c=0.0024,
-        v_min=0.09e3,
-        v_crit=1.5e3
+        v_min=0.09,
+        v_crit=1.5
     )
 
 

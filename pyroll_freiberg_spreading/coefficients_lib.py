@@ -52,9 +52,9 @@ def velocity_coefficient(
         v_crit
 ):
     if roll_pass.velocity < v_crit:
-        return a * ((roll_pass.velocity - v_min) / 1e3) ** n + b
+        return a * ((roll_pass.velocity - v_min)) ** n + b
 
-    return 1 - c * (roll_pass.velocity - v_crit) / 1e3
+    return 1 - c * (roll_pass.velocity - v_crit)
 
 
 def diagonals_ratio_coefficient(

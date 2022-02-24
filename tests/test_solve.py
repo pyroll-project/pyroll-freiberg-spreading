@@ -32,4 +32,4 @@ def test_solve(tmp_path, monkeypatch: pytest.MonkeyPatch):
 
     assert result.exit_code == 0
 
-    assert "No Freiberg Spreading Coefficients available for pass Rund III" in result.output
+    assert "No Freiberg spreading coefficients available for Rund III" in result.output
