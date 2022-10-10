@@ -2,6 +2,9 @@ import numpy as np
 
 from pyroll.core import RollPass, Profile
 
+import logging
+
+_log = logging.getLogger("pyroll.freiberg_spreading")
 
 def filling_coefficient(
         roll_pass: RollPass,
@@ -15,6 +18,9 @@ def filling_coefficient(
         min_ratio
 ):
     filling_ratio = roll_pass.out_profile.filling_ratio
+
+    if filling_ratio < min_ratio or filling_ratio > 1:
+        _log.warning("Filling ratio %f out of range of validity [%f, %f]!", filling_ratio, min_ratio, 1)
 
     if filling_ratio > critical_ratio:
         return a2 * filling_ratio ** n2 + b2
