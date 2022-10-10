@@ -1,16 +1,16 @@
 import sys
 
-from pyroll import RollPass, RollPassProfile
+from pyroll.core import RollPass
 
 
-@RollPassProfile.hookspec
+@RollPass.Profile.hookspec
 def freiberg_spreading_material_coefficient(roll_pass, profile):
     """Get a FreibergSpreadModelTensionCoefficient object suitable for the given roll pass.
     Return None if the implementation cannot serve this.
     The first not None result is taken."""
 
 
-@RollPassProfile.hookspec
+@RollPass.Profile.hookspec
 def freiberg_spreading_temperature_coefficient(roll_pass, profile):
     """Get a FreibergSpreadModelTensionCoefficient object suitable for the given roll pass.
     Return None if the implementation cannot serve this.
@@ -60,4 +60,4 @@ def tension_less_velocity(roll_pass):
 
 
 RollPass.plugin_manager.add_hookspecs(sys.modules[__name__])
-RollPassProfile.plugin_manager.add_hookspecs(sys.modules[__name__])
+RollPass.Profile.plugin_manager.add_hookspecs(sys.modules[__name__])

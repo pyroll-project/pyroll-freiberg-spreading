@@ -1,6 +1,6 @@
 import numpy as np
 
-from pyroll import RollPass
+from pyroll.core import RollPass, Profile
 
 
 def filling_coefficient(
@@ -27,7 +27,7 @@ def roll_gap_ratio_coefficient(
         a,
         n
 ):
-    return a * (roll_pass.roll_radius / roll_pass.height) ** n
+    return a * (roll_pass.roll.working_radius / roll_pass.height) ** n
 
 
 def tension_coefficient(
@@ -52,7 +52,7 @@ def velocity_coefficient(
         v_crit
 ):
     if roll_pass.velocity < v_crit:
-        return a * ((roll_pass.velocity - v_min)) ** n + b
+        return a * (roll_pass.velocity - v_min) ** n + b
 
     return 1 - c * (roll_pass.velocity - v_crit)
 
@@ -62,29 +62,26 @@ def diagonals_ratio_coefficient(
         a,
         n
 ):
-    if roll_pass.in_profile.filling_ratio > 1:
-        profile_diagonals_ratio = roll_pass.in_profile.width / roll_pass.in_profile.height
-    else:
-        profile_diagonals_ratio = roll_pass.in_profile.groove.usable_width / roll_pass.in_profile.height
+    profile_diagonals_ratio = roll_pass.in_profile.width / roll_pass.in_profile.height
     profile_diagonals_ratio = profile_diagonals_ratio if profile_diagonals_ratio > 1 else 1 / profile_diagonals_ratio
-    pass_diagonals_ratio = roll_pass.groove.usable_width / roll_pass.height
+    pass_diagonals_ratio = roll_pass.roll.groove.usable_width / roll_pass.height
     pass_diagonals_ratio = pass_diagonals_ratio if pass_diagonals_ratio > 1 else 1 / pass_diagonals_ratio
     diagonals_ratio = profile_diagonals_ratio if profile_diagonals_ratio > pass_diagonals_ratio else pass_diagonals_ratio
     return a * diagonals_ratio ** n
 
 
 def temperature_coefficient_low_alloyed(
-        roll_pass: RollPass,
+        profile: Profile,
         a,
         b,
 ):
-    return a + b * (roll_pass.mean_temperature - 273.15)
+    return a + b * (profile.temperature - 273.15)
 
 
 def temperature_coefficient_high_alloyed(
-        roll_pass: RollPass,
+        profile: Profile,
         a,
         b,
         c,
 ):
-    return a * np.exp(b * (roll_pass.mean_temperature - 273.15)) + c
+    return a * np.exp(b * (profile.temperature - 273.15)) + c

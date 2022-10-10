@@ -1,61 +1,61 @@
 import sys
 
-from pyroll.core import RollPass, grooves
-from pyroll.utils.hookutils import applies_to_in_grooves, applies_to_out_grooves
+from pyroll.core import RollPass
+from pyroll.utils.hookutils import for_in_profile_types, for_out_profile_types
 from .. import coefficients_lib
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(grooves.DiamondGroove)
-@applies_to_out_grooves(grooves.SquareGroove)
+@for_in_profile_types("oval")
+@for_out_profile_types("square")
 def freiberg_spreading_velocity_coefficient(roll_pass: RollPass):
     return coefficients_lib.velocity_coefficient(
         roll_pass,
-        a=-0.014,
-        b=1.018,
-        n=0.69,
-        c=0.0024,
-        v_min=0.09,
+        a=0.016,
+        b=0.986,
+        n=-0.35,
+        c=0.0013,
+        v_min=0.01,
         v_crit=1.5
     )
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(grooves.DiamondGroove)
-@applies_to_out_grooves(grooves.SquareGroove)
+@for_in_profile_types("oval")
+@for_out_profile_types("square")
 def freiberg_spreading_roll_gap_ratio_coefficient(roll_pass: RollPass):
     return coefficients_lib.roll_gap_ratio_coefficient(
         roll_pass,
-        a=0.9179,
-        n=0.0546
+        a=0.813,
+        n=0.09
     )
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(grooves.DiamondGroove)
-@applies_to_out_grooves(grooves.SquareGroove)
+@for_in_profile_types("oval")
+@for_out_profile_types("square")
 def freiberg_spreading_filling_coefficient(roll_pass: RollPass):
     return coefficients_lib.filling_coefficient(
         roll_pass,
-        a1=0.05813,
-        b1=0.95787,
-        n1=16.92486,
+        a1=0.355,
+        b1=0.65,
+        n1=0.9989,
         a2=0,
         b2=1,
         n2=0,
-        critical_ratio=0.96,
+        critical_ratio=0.97,
         min_ratio=0.88
     )
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(grooves.DiamondGroove)
-@applies_to_out_grooves(grooves.SquareGroove)
+@for_in_profile_types("oval")
+@for_out_profile_types("square")
 def freiberg_spreading_diagonals_ratio_coefficient(roll_pass: RollPass):
     return coefficients_lib.diagonals_ratio_coefficient(
         roll_pass,
-        a=1.025,
-        n=0.22
+        a=1.003,
+        n=0.42
     )
 
 

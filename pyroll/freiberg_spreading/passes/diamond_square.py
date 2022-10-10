@@ -1,14 +1,13 @@
 import sys
 
 from pyroll.core import RollPass
-from pyroll.core.grooves import SquareGroove, DiamondGroove
-from pyroll.utils.hookutils import applies_to_in_grooves, applies_to_out_grooves
+from pyroll.utils.hookutils import for_in_profile_types, for_out_profile_types
 from .. import coefficients_lib
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(SquareGroove)
-@applies_to_out_grooves(DiamondGroove)
+@for_in_profile_types("diamond")
+@for_out_profile_types("square")
 def freiberg_spreading_velocity_coefficient(roll_pass: RollPass):
     return coefficients_lib.velocity_coefficient(
         roll_pass,
@@ -22,25 +21,25 @@ def freiberg_spreading_velocity_coefficient(roll_pass: RollPass):
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(SquareGroove)
-@applies_to_out_grooves(DiamondGroove)
+@for_in_profile_types("diamond")
+@for_out_profile_types("square")
 def freiberg_spreading_roll_gap_ratio_coefficient(roll_pass: RollPass):
     return coefficients_lib.roll_gap_ratio_coefficient(
         roll_pass,
-        a=0.908,
-        n=0.06
+        a=0.9179,
+        n=0.0546
     )
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(SquareGroove)
-@applies_to_out_grooves(DiamondGroove)
+@for_in_profile_types("diamond")
+@for_out_profile_types("square")
 def freiberg_spreading_filling_coefficient(roll_pass: RollPass):
     return coefficients_lib.filling_coefficient(
         roll_pass,
-        a1=0.271,
-        b1=0.74,
-        n1=0.998,
+        a1=0.05813,
+        b1=0.95787,
+        n1=16.92486,
         a2=0,
         b2=1,
         n2=0,
@@ -50,13 +49,13 @@ def freiberg_spreading_filling_coefficient(roll_pass: RollPass):
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(SquareGroove)
-@applies_to_out_grooves(DiamondGroove)
+@for_in_profile_types("diamond")
+@for_out_profile_types("square")
 def freiberg_spreading_diagonals_ratio_coefficient(roll_pass: RollPass):
     return coefficients_lib.diagonals_ratio_coefficient(
         roll_pass,
-        a=1.02,
-        n=0.17
+        a=1.025,
+        n=0.22
     )
 
 

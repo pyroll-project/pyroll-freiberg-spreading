@@ -1,20 +1,19 @@
 import sys
 
 from pyroll.core import RollPass
-import pyroll.core.grooves as grooves
-from pyroll.utils.hookutils import applies_to_in_grooves, applies_to_out_grooves
+from pyroll.utils.hookutils import for_in_profile_types, for_out_profile_types
 from .. import coefficients_lib
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(grooves.OvalGrooveBase)
-@applies_to_out_grooves(grooves.RoundGrooveBase)
+@for_in_profile_types("round")
+@for_out_profile_types("oval")
 def freiberg_spreading_velocity_coefficient(roll_pass: RollPass):
     return coefficients_lib.velocity_coefficient(
         roll_pass,
-        a=0.016,
-        b=0.986,
-        n=-0.35,
+        a=0.02,
+        b=0.985,
+        n=-0.46,
         c=0.001,
         v_min=0.01,
         v_crit=1.5
@@ -22,25 +21,25 @@ def freiberg_spreading_velocity_coefficient(roll_pass: RollPass):
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(grooves.OvalGrooveBase)
-@applies_to_out_grooves(grooves.RoundGrooveBase)
+@for_in_profile_types("round")
+@for_out_profile_types("oval")
 def freiberg_spreading_roll_gap_ratio_coefficient(roll_pass: RollPass):
     return coefficients_lib.roll_gap_ratio_coefficient(
         roll_pass,
-        a=0.8317,
-        n=0.08
+        a=0.8279,
+        n=0.082
     )
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(grooves.OvalGrooveBase)
-@applies_to_out_grooves(grooves.RoundGrooveBase)
+@for_in_profile_types("round")
+@for_out_profile_types("oval")
 def freiberg_spreading_filling_coefficient(roll_pass: RollPass):
     return coefficients_lib.filling_coefficient(
         roll_pass,
-        a1=0.19579019,
-        b1=0.82420981,
-        n1=5.1507655,
+        a1=0.18444996,
+        b1=0.83755,
+        n1=5.6739714,
         a2=0,
         b2=1,
         n2=0,
@@ -50,13 +49,13 @@ def freiberg_spreading_filling_coefficient(roll_pass: RollPass):
 
 
 @RollPass.hookimpl
-@applies_to_in_grooves(grooves.OvalGrooveBase)
-@applies_to_out_grooves(grooves.RoundGrooveBase)
+@for_in_profile_types("round")
+@for_out_profile_types("oval")
 def freiberg_spreading_diagonals_ratio_coefficient(roll_pass: RollPass):
     return coefficients_lib.diagonals_ratio_coefficient(
         roll_pass,
-        a=1.03,
-        n=0.28
+        a=0.996,
+        n=0.319
     )
 
 

@@ -1,35 +1,34 @@
-from pathlib import Path
-from click.testing import CliRunner
+import logging
+from importlib import reload
 
 import pytest
+from pyroll.core import solve
+from pyroll.ui import Reporter
+import pyroll.freiberg_spreading
 
-THIS_DIR = Path(__file__).parent
-INPUT = (THIS_DIR / "input.py").read_text()
-CONFIG = (THIS_DIR / "config.yaml").read_text()
 
+def test_solve(tmp_path, monkeypatch: pytest.MonkeyPatch, caplog):
+    caplog.set_level(logging.DEBUG, logger="pyroll")
 
-def test_solve(tmp_path, monkeypatch: pytest.MonkeyPatch):
-    from pyroll.ui.cli.program import main
+    import pyroll.ui.cli.res.input_trio as input_py
+    reload(input_py)
 
-    (tmp_path / "input.py").write_text(INPUT)
-    (tmp_path / "config.yaml").write_text(CONFIG)
+    sequence = input_py.sequence
 
-    monkeypatch.chdir(tmp_path)
-    runner = CliRunner()
-    result = runner.invoke(
-        main,
-        [
-            "input-py",
-            "solve",
-            "report",
-        ],
+    solve(sequence, input_py.in_profile)
 
-    )
+    report = Reporter()
 
+    rendered = report.render(sequence)
     print()
-    print(result.output)
-    print(result.exception)
 
-    assert result.exit_code == 0
+    report_file = tmp_path / "report.html"
+    report_file.write_text(rendered)
+    print(report_file)
 
-    assert "No Freiberg spreading coefficients available for Rund III" in result.output
+    print("\nLog:")
+    print(caplog.text)
+
+    assert "Geuze" not in caplog.text
+
+    # assert "No Freiberg spreading coefficients available for Rund III" in result.output
