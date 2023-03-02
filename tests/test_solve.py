@@ -1,35 +1,95 @@
+import logging
+import webbrowser
 from pathlib import Path
-from click.testing import CliRunner
 
-import pytest
+import numpy as np
 
-THIS_DIR = Path(__file__).parent
-INPUT = (THIS_DIR / "input.py").read_text()
-CONFIG = (THIS_DIR / "config.yaml").read_text()
+from pyroll.core import Profile, Roll, RollPass, Transport, RoundGroove, CircularOvalGroove, PassSequence, SquareGroove
+import pyroll.freiberg_spreading
 
 
-def test_solve(tmp_path, monkeypatch: pytest.MonkeyPatch):
-    from pyroll.ui.cli.program import main
+@RollPass.Profile.flow_stress
+def flow_stress(self: RollPass.Profile):
+    return 50e6 * (1 + self.strain) ** 0.2 * self.roll_pass.strain_rate ** 0.1
 
-    (tmp_path / "input.py").write_text(INPUT)
-    (tmp_path / "config.yaml").write_text(CONFIG)
 
-    monkeypatch.chdir(tmp_path)
-    runner = CliRunner()
-    result = runner.invoke(
-        main,
-        [
-            "input-py",
-            "solve",
-            "report",
-        ],
+def test_solve(tmp_path: Path, caplog):
+    caplog.set_level(logging.DEBUG, logger="pyroll")
 
+    in_profile = Profile.round(
+        diameter=30e-3,
+        temperature=1200 + 273.15,
+        strain=0,
+        material=["C45", "steel"],
+        length=1,
     )
 
-    print()
-    print(result.output)
-    print(result.exception)
+    sequence = PassSequence([
+        RollPass(
+            label="Oval I",
+            roll=Roll(
+                groove=CircularOvalGroove(
+                    depth=8e-3,
+                    r1=6e-3,
+                    r2=40e-3
+                ),
+                nominal_radius=160e-3,
+                rotational_frequency=1,
+                neutral_point=-20e-3
+            ),
+            gap=2e-3,
+        ),
+        Transport(
+            label="I => II",
+            duration=1
+        ),
+        RollPass(
+            label="Round II",
+            roll=Roll(
+                groove=RoundGroove(
+                    r1=1e-3,
+                    r2=12.5e-3,
+                    depth=11.5e-3
+                ),
+                nominal_radius=160e-3,
+                rotational_frequency=1
+            ),
+            gap=2e-3,
+        ),
+        Transport(
+            label="II => III",
+            duration=1
+        ),
+        RollPass(
+            label="Oval III",
+            roll=Roll(
+                groove=CircularOvalGroove(
+                    depth=6e-3,
+                    r1=6e-3,
+                    r2=35e-3
+                ),
+                nominal_radius=160e-3,
+                rotational_frequency=1
+            ),
+            gap=2e-3,
+        ),
+    ])
 
-    assert result.exit_code == 0
+    try:
+        sequence.solve(in_profile)
+    finally:
+        print("\nLog:")
+        print(caplog.text)
 
-    assert "No Freiberg spreading coefficients available for Rund III" in result.output
+    try:
+        import pyroll.report
+
+        report = pyroll.report.report(sequence)
+
+        report_file = tmp_path / "report.html"
+        report_file.write_text(report)
+        print(report_file)
+        webbrowser.open(report_file.as_uri())
+
+    except ImportError:
+        pass
