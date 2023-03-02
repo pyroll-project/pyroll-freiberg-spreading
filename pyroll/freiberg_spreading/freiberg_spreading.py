@@ -3,7 +3,7 @@ from logging import getLogger
 
 import numpy as np
 
-from pyroll.core import RollPass
+from pyroll.core import RollPass, root_hooks, Unit
 from . import coefficients_lib
 
 _log = getLogger(__name__)
@@ -25,6 +25,9 @@ def tension_less_velocity(self: RollPass):
 
 @RollPass.OutProfile.width
 def width(self: RollPass.OutProfile):
+    if not self.has_set_or_cached("width"):
+        return self.roll_pass.roll.groove.usable_width
+
     rp = self.roll_pass
     parts = np.array([
         rp.in_profile.freiberg_spreading_material_coefficient,
@@ -44,3 +47,6 @@ def width(self: RollPass.OutProfile):
 
     _log.debug(f"Freiberg Spreading Coefficients for {rp.label}: {parts} => Product: {spread}")
     return spread * rp.in_profile.width
+
+
+root_hooks.add(Unit.OutProfile.width)

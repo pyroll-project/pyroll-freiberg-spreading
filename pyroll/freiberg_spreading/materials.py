@@ -1,6 +1,6 @@
 from pyroll.core import Profile
 
-from pyroll.freiberg_spreading import temperature_coefficient_high_alloyed
+from .coefficients_lib import temperature_coefficient_high_alloyed
 
 
 def is_material(profile: Profile, materials: set[str]):

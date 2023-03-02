@@ -62,10 +62,7 @@ def diagonals_ratio_coefficient(
         a,
         n
 ):
-    if roll_pass.in_profile.filling_ratio > 1:
-        profile_diagonals_ratio = roll_pass.in_profile.width / roll_pass.in_profile.height
-    else:
-        profile_diagonals_ratio = roll_pass.in_profile.groove.usable_width / roll_pass.in_profile.height
+    profile_diagonals_ratio = roll_pass.in_profile.width / roll_pass.in_profile.height
     profile_diagonals_ratio = profile_diagonals_ratio if profile_diagonals_ratio > 1 else 1 / profile_diagonals_ratio
     pass_diagonals_ratio = roll_pass.roll.groove.usable_width / roll_pass.height
     pass_diagonals_ratio = pass_diagonals_ratio if pass_diagonals_ratio > 1 else 1 / pass_diagonals_ratio
