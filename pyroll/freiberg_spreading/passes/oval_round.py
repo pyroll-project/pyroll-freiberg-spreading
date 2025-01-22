@@ -37,8 +37,6 @@ def freiberg_spreading_filling_coefficient(self: RollPass):
             a2=0,
             b2=1,
             n2=0,
-            critical_ratio=0.98,
-            min_ratio=0.88
         )
 
 

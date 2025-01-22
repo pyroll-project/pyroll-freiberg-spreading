@@ -5,21 +5,19 @@ from pyroll.core import RollPass, Profile
 
 def filling_coefficient(
         roll_pass: RollPass,
-        a1,
-        b1,
-        n1,
-        a2,
-        b2,
-        n2,
-        critical_ratio,
-        min_ratio
+        a1: float,
+        b1: float,
+        n1: float,
+        a2: float,
+        b2: float,
+        n2: float,
 ):
     filling_ratio = roll_pass.out_profile.filling_ratio
 
-    if filling_ratio > critical_ratio:
-        return a2 * filling_ratio ** n2 + b2
-
-    return a1 * filling_ratio ** n1 + b1
+    return min(
+        a1 * filling_ratio ** n1 + b1,
+        a2 * filling_ratio ** n2 + b2
+    )
 
 
 def roll_gap_ratio_coefficient(
@@ -49,7 +47,7 @@ def velocity_coefficient(
         c,
         n,
         v_min,
-        v_crit
+        v_crit,
 ):
     if roll_pass.velocity < v_crit:
         return a * ((roll_pass.velocity - v_min)) ** n + b
