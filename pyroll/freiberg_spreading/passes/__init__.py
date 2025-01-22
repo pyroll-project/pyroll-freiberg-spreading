@@ -1,3 +1,4 @@
+from . import diamond_diamond
 from . import square_diamond
 from . import diamond_square
 
