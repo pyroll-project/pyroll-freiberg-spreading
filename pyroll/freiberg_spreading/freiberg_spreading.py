@@ -47,6 +47,3 @@ def width(self: RollPass.OutProfile):
 
     _log.debug(f"Freiberg Spreading Coefficients for {rp.label}: {parts} => Product: {spread}")
     return spread * rp.in_profile.width
-
-
-root_hooks.add(Unit.OutProfile.width)
